@@ -16,9 +16,10 @@ end
 contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
 contents.each do |row| 
 	name = row[:first_name]
-	zipcode = "00000" + row[:zipcode].to_s
-	
-	zipcode = zipcode.slice(-5,5)
+	zipcode = row[:zipcode].to_s.rjust(5, '00000')
+
+	#zipcode = "00000" + row[:zipcode].to_s
+	#zipcode = zipcode.slice(-5,5)
 
 	puts  "#{name} - #{zipcode}"
 end
