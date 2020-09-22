@@ -2,27 +2,22 @@ require "csv"
 
 puts "EventManager Initialized!"
 
-=begin
-rescue Exception => e
-	
+def clean_zipcode(zipcode)
+	zc = zipcode.to_s
+
+	if zc.length < 5 
+		zc = zc.rjust(5, '0')
+	elsif zc.length > 5
+		zc = zipcode[0..4]
+	else
+		zc
+	end
 end
-lines = File.readlines "event_attendees.csv"
-lines.each do |line|
-	arrayline = line.split(",")
-	puts arrayline[2]
-end
-=end
 
 contents = CSV.open "event_attendees.csv", headers: true, header_converters: :symbol
 contents.each do |row| 
 	name = row[:first_name]
-	zipcode = row[:zipcode].to_s
+	zipcode = clean_zipcode(row[:zipcode])
 
-	if zipcode.length < 5 
-		zipcode = zipcode.rjust(5, '0')
-	elsif zipcode.length > 5
-		zipcode = zipcode[0..4]
-	end
-	
 	puts  "#{name} - #{zipcode}"
 end
